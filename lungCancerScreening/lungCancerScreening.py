@@ -110,7 +110,7 @@ def exportPDF():
         f.close()
         os.remove(f.name)
         response = make_response(data)
-        response.headers["Content-Disposition"] = "attachment; filename=LungCancerScreeningResults.pdf"
+        response.headers["Content-Disposition"] = "attachment; filename={}.pdf".format(PDF_FILE_NAME)
         response.headers["Content-type"] = "application/pdf"
     else:
         token_id=uuid.uuid4()

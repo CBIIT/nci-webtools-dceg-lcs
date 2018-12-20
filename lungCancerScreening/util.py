@@ -7,3 +7,5 @@ config.read(config_file)
 
 ADMIN_EMAIL = config.get('email', 'admin_email')
 SUPPORT_EMAIL = config.get('email', 'support_email')
+
+PDF_FILE_NAME = config.get('export', 'pdf_file_name')
