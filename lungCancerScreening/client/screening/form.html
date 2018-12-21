@@ -1,0 +1,42 @@
+        <div class="row">
+<!--             <div class="col-xs-12">
+                <p>The National Lung Screening Trial (NLST) compared the efficacy of low-dose helical CT with that of standard chest X-ray for detecting lung cancer.  Low-dose CT resulted in 20% reduction in lung cancer mortality, and the <a href="http://www.uspreventiveservicestaskforce.org/Page/Topic/recommendation-summary/lung-cancer-screening" target="_blank" title="USPSTF (U.S. Preventive Services Task Force)">US Preventive Services Task Force (USPSTF)</a> recommends CT lung screening for those 50-80 years of age, minimum 30 pack-years of smoking, and no more than 15 years since quitting.  The Risk-based NLST Outcomes Tool (RNOT) provides chance of diagnosis and death from lung cancer, and risk of false-positive CT screen, based on data from the NLST.</p>
+                <p class="text-bold">The best way to lower your risk of lung cancer, and all smoking-related diseases, is to quit smoking. Learn more by visiting <a href="http://smokefree.gov" target="smokefree">smokefree.gov</a> and the CDC page on <a href="http://www.cdc.gov/tobacco/quit_smoking/" target="cdcSmokeFree">quitting smoking</a>.</p>
+            </div> -->
+            <div class="col-xs-12">
+                <p>This tool uses basic information on smoking behavior and data from the National Lung Cancer Screening Trial (NLST) to determine the following:
+                    <ul>
+                        <li>whether someone like you would be recommended to get lung cancer screening by the <a href="https://www.uspreventiveservicestaskforce.org/Page/Document/UpdateSummaryFinal/lung-cancer-screening" target="usPreventiveServiceTaskForce">US Preventive Services Task Force</a> (a group of experts who make recommendations about prevention);</li>
+                        <li>your chance of getting a lung cancer diagnosis in the next five years;</li>
+                        <li>your chance of dying from lung cancer in the next five years;</li>
+                        <li>your risk of a <a href="https://www.cancer.gov/publications/dictionaries/cancer-terms/def/false-positive-test-result" target="falsePositive">false-positive test result</a> (a screening test result that indicates that a person has a specific disease or condition when the person actually does not have the disease or condition).</li>
+                    </ul>
+                </p>
+                <p class="text-bold">The best way to lower your risk of lung cancer, and all smoking-related diseases, is to quit smoking. Learn more by visiting <a href="https://smokefree.gov/" target="smokefree">smokefree.gov</a>, the CDC <a href="https://www.cdc.gov/tobacco/quit_smoking/" target="cdcSmokeFree">quitting smoking</a> page, or by calling 1-800-QUIT-NOW.</p>                
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Risk Tool</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p>
+                                    <strong>
+                                        This risk tool is not designed for use by (1) individuals younger than {{MIN_RECOMMENDED_AGE}} or older than {{MAX_AGE}}, (2) never-smokers, (3) current smokers who have smoked less than {{MIN_RECOMMENDED_PACK_YEARS}} <a href="https://www.cancer.gov/publications/dictionaries/cancer-terms/def/pack-year" target="packYear">pack-years</a> (e.g. those who smoked 1 pack per day for {{MIN_RECOMMENDED_PACK_YEARS}} years or 2 packs per day for {{MIN_RECOMMENDED_PACK_YEARS / 2}} years), or (3) former smokers who quit more than {{MAX_QUIT_YEARS}} years ago.
+                                    </strong>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-9" ng-include="'shared/html/_form.html'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
