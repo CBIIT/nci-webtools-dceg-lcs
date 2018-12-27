@@ -6,7 +6,7 @@ import re
 import time
 import json
 import StringIO
-from flask import Flask, send_file, render_template, request, jsonify, make_response
+from flask import Flask, send_file,  request, jsonify, make_response
 from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
 from rpy2.robjects.vectors import IntVector, FloatVector
 from rpy2.robjects import r
@@ -30,7 +30,11 @@ else:
 
 @app.route('/')
 def index():
-    return send_file('client/index.html')
+    return send_file('{}/index.html'.format(CLIENT_APP_FOLDER))
+
+@app.route('/<page>.html')
+def send_html(page):
+    return send_file('{}/{}.html'.format(CLIENT_APP_FOLDER, page))
 
 @app.route('/configuration/', methods=['GET'])
 def getConfig():
