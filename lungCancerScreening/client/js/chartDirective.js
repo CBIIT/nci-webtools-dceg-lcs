@@ -207,7 +207,7 @@ app.directive('lcsChart', ['$util', function($util) {
                         $scope.drawChart();
                     }
                 };
-                img.src = 'shared/images/people.png';
+                img.src = 'images/people.png';
             } else {
                 // Canvas not supported
                 console.log('Canvas not supported in current browser!');
