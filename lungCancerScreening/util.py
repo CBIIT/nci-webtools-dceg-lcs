@@ -9,6 +9,7 @@ ADMIN_EMAIL = config.get('email', 'admin_email')
 SUPPORT_EMAIL = config.get('email', 'support_email')
 
 PDF_FILE_NAME = config.get('export', 'pdf_file_name')
+PDF_TITLE = config.get('export', 'title')
 
 CLIENT_FOLDER = config.get('client', 'folder')
 CLIENT_APP_FOLDER = os.path.join(os.environ['PWD'], CLIENT_FOLDER, config.get('client', 'app_folder'))

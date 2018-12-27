@@ -195,7 +195,7 @@ app.controller("ResultCtrl", function($scope, $window, $sce, $http, $sessionStor
     html+= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
     html+= '<html xmlns="http://www.w3.org/1999/xhtml">';
     html+= '  <head>';
-    html+= '  <title>' + $scope.title + '</title>';
+    html+= '  <title>' + $scope.pdf_title + '</title>';
     html+= '  </head>';
     html+= '  <body>';
     html+= results;

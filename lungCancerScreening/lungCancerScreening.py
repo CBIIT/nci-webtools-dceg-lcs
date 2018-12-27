@@ -38,7 +38,7 @@ def send_html(page):
 
 @app.route('/configuration/', methods=['GET'])
 def getConfig():
-    return jsonify(admin_email=ADMIN_EMAIL, support_email=SUPPORT_EMAIL)
+    return jsonify(admin_email=ADMIN_EMAIL, support_email=SUPPORT_EMAIL, pdf_title=PDF_TITLE)
 
 # This route will return a list in JSON format
 @app.route('/lungCancerRest/', methods=['POST'])
@@ -114,7 +114,7 @@ def exportPDF():
         f.close()
         os.remove(f.name)
         response = make_response(data)
-        response.headers["Content-Disposition"] = "attachment; filename={}.pdf".format(PDF_FILE_NAME)
+        response.headers["Content-Disposition"] = "attachment; filename={}".format(PDF_FILE_NAME)
         response.headers["Content-type"] = "application/pdf"
     else:
         token_id=uuid.uuid4()

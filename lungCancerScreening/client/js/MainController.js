@@ -17,6 +17,10 @@ app.controller("MainCtrl", function($scope, $sce, $http, $sessionStorage, $locat
             if (res.data.support_email) {
                 $scope.support_email = res.data.support_email;
             }
+
+            if (res.data.pdf_title) {
+                $scope.pdf_title = res.data.pdf_title;
+            }
         }
     })
     .catch( function(res) {
