@@ -24,7 +24,7 @@ with open ('LCWrapper.R') as fh:
 
 # Initialize the Flask application
 if __name__ == '__main__':
-    app = Flask(__name__, static_folder=CLIENT_FOLDER, static_url_path='', template_folder='.')
+    app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
 else:
     app = Flask(__name__)
 
