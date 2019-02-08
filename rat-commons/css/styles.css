@@ -473,7 +473,7 @@ a.btn:disabled {
   cursor: pointer;
 
   background-color: white;
-  border : none; 
+  border : none;
 }
 
 #printTop {
@@ -1794,6 +1794,24 @@ section > fieldset > legend.questions {
 
 .makeSpaceForPrintIcon {
     width: 85%;
+}
+
+/* For any links in the subsecton on the about page use this class for styling */
+.reference {
+    text-decoration: underline;
+}
+
+/* For emphasis on a word or collection of words */
+.emphasis {
+    /* For Chrome: Since the default for underline is to skip underlining of any character that goes below the */
+    /* underline ( example character: y).  This name/value pair stop skipping the underline                    */
+    text-decoration-skip-ink: none;
+    text-decoration: underline;
+}
+
+/* For bolding a word or collection of words */
+.bold {
+    font-weight: bold;
 }
 
 
