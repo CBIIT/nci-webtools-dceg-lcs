@@ -1,1 +1,0 @@
-<%@ WebService Language="C#" CodeBehind="BCRACalculator.asmx.cs" Class="BCRA.Web.Services.BCRACalculator" %>

@@ -1,2 +1,0 @@
-CCRAT
-build: $Revision: 2656 $
