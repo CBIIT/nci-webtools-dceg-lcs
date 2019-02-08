@@ -2,4 +2,4 @@
 
 import sys
 sys.stdout = sys.stderr
-from lungCancerRiskAssessment import app as application
+from lungCancerScreening import app as application
