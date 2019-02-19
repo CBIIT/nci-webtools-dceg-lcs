@@ -8,3 +8,4 @@ test*.html
 localserver.py
 */node_modules/
 tmp/
+tests/*.xml
