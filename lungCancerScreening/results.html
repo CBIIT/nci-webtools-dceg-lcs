@@ -110,7 +110,7 @@
             <a href="http://www.uspreventiveservicestaskforce.org/Page/Document/UpdateSummaryFinal/lung-cancer-screening" target="_blank">US Preventive Services Task Force</a>            (a group of experts who make recommendations about prevention), (2) risk of dying from lung cancer, (3) risk
             of a false alarm (you have a positive screening test but do not actually have lung cancer), and (4) risk of being
             diagnosed with lung cancer.</p>
-        <p ng-show="!seeresults">To obtain these results, click here: <button ng-click="recommends=true; seeresults=true">SEE MY RESULTS</button></p>
+        <p ng-show="!seeresults">To obtain these results, click here: <button id="resultBtn" ng-click="recommends=true; seeresults=true">SEE MY RESULTS</button></p>
     </div>
     <div ng-show="recommends">
         <p class="text-bold" ng-if="calculateEligibility()">
@@ -122,7 +122,7 @@
             <a href="http://www.uspreventiveservicestaskforce.org/Page/Document/UpdateSummaryFinal/lung-cancer-screening" target="_blank">US Preventive Services Task Force</a>            does NOT recommend CT lung screening for someone like you.  They recommend screening for those who are ages 55
             to 80, have smoked at least 30 pack-years, and have quit for no longer than 15 years. <span>{{createEligibilityStatement()}}</span>
         </p>
-        <p ng-show="!next1"><button ng-click="chart_row1=true;next1=true;export=false">Next</button></p>
+        <p ng-show="!next1"><button id="nextBtn1" ng-click="chart_row1=true;next1=true;export=false">Next</button></p>
     </div>
     <div style="page-break-after: always"></div>
     <div class="yourresults">
@@ -193,10 +193,10 @@
                     <!-- Original pictogram chart -->
                     <tr ng-if="chartType === 'pic'">
                         <td class="results_grid">
-                            <img ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result0}}.png" alt="chart1" />
+                            <img id="chart_1" ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result0}}.png" alt="chart1" />
                         </td>
                         <td class="results_grid">
-                            <img ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result0-session.myForm.result1}}.png" alt="chart2"
+                            <img id="chart_2" ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result0-session.myForm.result1}}.png" alt="chart2"
                         </td>
                     </tr>
                     <!-- Square chart -->
@@ -414,7 +414,7 @@
                     <tr>
                         <td ng-if="chartType !== 'combined' && chartType !== 'combined2'"></td>
                         <td class="results_legend" valign="top">
-                            <p ng-show="export === false"><button ng-click="switchToSection(2)">Next</button></p>
+                            <p ng-show="export === false"><button id="nextBtn2" ng-click="switchToSection(2)">Next</button></p>
                         </td>
                     </tr>
                 </tbody>
@@ -451,10 +451,10 @@
                 <!-- Original pictogram -->
                 <tr ng-if="chartType === 'pic'">
                     <td class="results_grid">
-                        <img ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result2}}.png" alt="chart4" />
+                        <img id="chart_3" ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result2}}.png" alt="chart4" />
                     </td>
                     <td class="results_grid">
-                        <img ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result3+session.myForm.result2}}.png" alt="chart5">
+                        <img id="chart_4" ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result3+session.myForm.result2}}.png" alt="chart5">
                     </td>
                 </tr>
                 <!-- Square charts -->
@@ -658,7 +658,7 @@
                         <p class="ng-binding">Your chances of being diagnosed with lung cancer within 5 years will be
                             increased by <b>{{session.myForm.result3/10 }}%</b>.</p>
                         <p ng-show="export === false"><button ng-click="switchToSection(1)">Back</button>
-                            <button ng-click="switchToSection(3)">Next</button></p>
+                            <button id="nextBtn3" ng-click="switchToSection(3)">Next</button></p>
                     </td>
                 </tr>
                 <tr ng-if="chartType === 'square' || chartType === 'people'">
@@ -678,13 +678,13 @@
                         <p class="ng-binding">Your chances of being diagnosed with lung cancer within 5 years will be
                             increased by <b>{{ session.myForm.result3 / 10 }}%</b>.</p>
                         <p ng-show="export === false"><button ng-click="switchToSection(1)">Back</button>
-                            <button ng-click="switchToSection(3)">Next</button></p>
+                            <button id="nextBtn3" ng-click="switchToSection(3)">Next</button></p>
                     </td>
                 </tr>
                 <tr ng-if="chartType === 'combined' || chartType === 'combined2'">
                     <td class="results_legend" valign="top">
                         <p ng-show="export === false"><button ng-click="switchToSection(1)">Back</button>
-                            <button ng-click="switchToSection(3)">Next</button></p>
+                            <button id="nextBtn3" ng-click="switchToSection(3)">Next</button></p>
                     </td>
                 </tr>
                 </tbody>
@@ -729,7 +729,7 @@
                             <div></div>
                         </td>
                         <td ng-if="chartType === 'pic'">
-                            <img ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result4}}.png" alt="chart3" />
+                            <img id="chart_5" ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result4}}.png" alt="chart3" />
                         </td>
                         <td ng-if="chartType === 'square'" class="results_grid">
                             <canvas class="lcs-chart " values="[session.myForm.result4 / 10]"></canvas>

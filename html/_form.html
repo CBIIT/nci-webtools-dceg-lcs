@@ -275,8 +275,8 @@
     <div class="form-group">
         <div class="col-xs-12">
             <div class="btn-toolbar pull-right">
-                <button class="btn btn-primary" ng-class="{'button-enabled': !myForm.isInvalid, 'button-disabled': myForm.isInvalid}" ng-disabled="myForm.isInvalid">Calculate</button>
-                <button class="btn btn-default" type="reset" ng-click="myForm.resetForm()">Reset</button>
+                <button id="calculateBtn" class="btn btn-primary" ng-class="{'button-enabled': !myForm.isInvalid, 'button-disabled': myForm.isInvalid}" ng-disabled="myForm.isInvalid">Calculate</button>
+                <button id="resetBtn" class="btn btn-default" type="reset" ng-click="myForm.resetForm()">Reset</button>
             </div>
         </div>
         <div class="loading_text" ng-show="myForm.loading">Calculating...</div>
