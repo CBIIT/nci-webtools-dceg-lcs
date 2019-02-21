@@ -532,6 +532,12 @@
         padding-left: 15px;
     }
 
+    #results_table3 th,
+    #results_table3 td {
+        padding-left: 25%;
+        padding-right: 25%;
+    }
+
     table.results_table th.results_title {
         width: 50%;
         padding: 10px 0px;

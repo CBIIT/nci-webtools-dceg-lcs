@@ -127,7 +127,7 @@
     <div style="page-break-after: always"></div>
     <div class="yourresults">
         <!-- Chart type buttons -->
-        <div style="text-align: right; margin-bottom: 5px">
+        <div style="text-align: right; margin-bottom: 5px; position:absolute; top: 30px; left: 65%">
             <button ng-if="availableChartTypes.indexOf('square') !== -1" ng-click="changeChartType('square')" class="btn btn-default {{ chartType === 'square' ? 'buttonActive' : '' }}">
                 <div class="legendPart legendSquare">
                     <div class="chartBlock chartBGColor chartOverlap"></div>
@@ -702,22 +702,19 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="results_table">
+            <table id="results_table3" class="results_table">
                 <tbody>
                     <!-- Top description -->
                     <tr>
-                        <td class="results_title"></td>
                         <th class="results_title">IF YOU DO GET CT LUNG SCREENING</th>
                     </tr>
                     <tr ng-if="chartType === 'pic' || chartType === 'combined2'">
-                        <td class="results_desc"></td>
                         <td class="results_desc" valign="top">
                             <p class="description line1">If you receive yearly CT lung screening for 3 years, your chances of receiving at least
                                 one "false alarm" (a false positive result) are <b>{{session.myForm.result4}}</b> out of 1000 people.</p>
                         </td>
                     </tr>
                     <tr ng-if="chartType !== 'pic' && chartType !== 'combined2'">
-                        <td class="results_desc"></td>
                         <td class="results_desc" valign="top">
                             <p class="description line1">If you receive yearly CT lung screening for 3 years, your chances of receiving at least
                                 one "false alarm" (a false positive result) are <b>{{session.myForm.result4 / 10}}</b> out of 100 people.</p>
@@ -725,9 +722,6 @@
                     </tr>
                     <!-- Charts -->
                     <tr>
-                        <td class="results_grid">
-                            <div></div>
-                        </td>
                         <td ng-if="chartType === 'pic'">
                             <img id="chart_5" ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result4}}.png" alt="chart3" />
                         </td>
@@ -746,8 +740,6 @@
                     </tr>
                     <!-- Bottom description -->
                     <tr>
-                        <td class="results_legend">
-                        </td>
                         <td class="results_legend">
                             <div ng-if="chartType === 'pic'">
                                 <span><img style="width:10px;height:10px;border:1px solid #777;margin-right:5px" ng-src="{{base_url}}images/cellfill.png" alt="filled cell" />Had a false alarm (positive screening test but does not actually have lung cancer)<br />
@@ -835,8 +827,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="results_legend" valign="top">
-                        </td>
                         <td ng-if="chartType === 'pic' || chartType === 'combined2'" class="results_legend" valign="top">
                             <p class="ng-binding">This means that if 1000 people answer the questions just like you, <b>{{session.myForm.result4}}</b>
                                 {{getPeopleOrPerson(session.myForm.result4)}} would receive a false alarm in the next 3 years
