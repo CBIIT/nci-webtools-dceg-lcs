@@ -524,12 +524,12 @@
 
     table.results_table tr th:first-child,
     table.results_table tr td:first-child {
-        padding-right: 15px;
+        padding-right: 20px;
     }
 
     table.results_table tr th:nth-child(2),
     table.results_table tr td:nth-child(2) {
-        padding-left: 15px;
+        padding-left: 20px;
     }
 
     #results_table3 th,
