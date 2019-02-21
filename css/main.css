@@ -521,7 +521,17 @@
     table.results_table {
         width: 100%;
     }
-    
+
+    table.results_table tr th:first-child,
+    table.results_table tr td:first-child {
+        padding-right: 15px;
+    }
+
+    table.results_table tr th:nth-child(2),
+    table.results_table tr td:nth-child(2) {
+        padding-left: 15px;
+    }
+
     table.results_table th.results_title {
         width: 50%;
         padding: 10px 0px;
