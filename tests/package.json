@@ -4,10 +4,11 @@
   "description": "Lung Cancer Screening testing",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:env; npm run test:smoke; npm run test:happy",
+    "test": "npm run test:env; npm run test:smoke; npm run test:happy-screening",
     "test:env": "mocha -R xunit -O output=env-test.xml e2e/scripts/environment-test.js",
     "test:smoke": "mocha -R xunit -O output=smoke-test.xml e2e/scripts/smoke-test.js",
-    "test:happy": "mocha -R xunit -O output=happy-test.xml e2e/scripts/happy-test.js"
+    "test:happy-screening": "mocha -R xunit -O output=happy-test-screening.xml e2e/scripts/happy-test-screening.js",
+    "test:happy-risk-assessment": "mocha -R xunit -O output=happy-test-risk-assessment.xml e2e/scripts/happy-test-risk-assessment.js"
   },
   "repository": {
     "type": "git",
