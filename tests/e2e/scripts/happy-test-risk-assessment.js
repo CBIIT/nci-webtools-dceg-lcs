@@ -90,30 +90,12 @@ describe('Lung Cancer Screening Happy test', function() {
     });
 
     it('Should be able to view results', async function(){
-        const resultBtn = await driver.findElement(By.id('resultBtn'));
-        await resultBtn.click();
-
-        const nextBtn1 = await driver.findElement(By.id('nextBtn1'));
-        await driver.wait(until.elementIsVisible(nextBtn1), 2000);
-        await nextBtn1.click();
         const chart_1 = await driver.findElement(By.id('chart_1'));
         await driver.wait(until.elementIsVisible(chart_1), 2000);
         const chart_2 = await driver.findElement(By.id('chart_2'));
         await driver.wait(until.elementIsVisible(chart_2), 2000);
-
-        const nextBtn2 = await driver.findElement(By.id('nextBtn2'));
-        await driver.wait(until.elementIsVisible(nextBtn2), 2000);
-        await nextBtn2.click();
-        const chart_3 = await driver.findElement(By.id('chart_3'));
-        await driver.wait(until.elementIsVisible(chart_3), 2000);
-        const chart_4 = await driver.findElement(By.id('chart_4'));
-        await driver.wait(until.elementIsVisible(chart_4), 2000);
-
-        const nextBtn3 = await driver.findElement(By.id('nextBtn3'));
-        await driver.wait(until.elementIsVisible(nextBtn3), 2000);
-        await nextBtn3.click();
-        const chart_5 = await driver.findElement(By.id('chart_5'));
-        await driver.wait(until.elementIsVisible(chart_5), 2000);
+        const exportBtn = await driver.findElement(By.id('exportBtn'));
+        await driver.wait(until.elementIsVisible(exportBtn), 2000);
     });
 
 });

@@ -135,10 +135,10 @@
                 </tr>
                 <tr>
                     <td class="results_grid">
-                        <img ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result2}}.png" alt="chart2" />
+                        <img id="chart_1" ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result2}}.png" alt="chart1" />
                     </td>
                     <td class="results_grid">
-                        <img ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result0}}.png" alt="chart1" />
+                        <img id="chart_2" ng-src="{{base_url}}images/grid_images/chart_rl_{{session.myForm.result0}}.png" alt="chart2" />
                     </td>
                 </tr>
                 <tr>
@@ -193,5 +193,5 @@
 <br />
 <div class="summaryButtons">
     <p class="pdf_loading" ng-show="loading"></p>
-    <button ng-click="exportPDF()">Save Summary Report</button>
+    <button id="exportBtn" ng-click="exportPDF()">Save Summary Report</button>
 </div>
