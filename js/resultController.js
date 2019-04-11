@@ -254,7 +254,7 @@ app.controller("ResultCtrl", function($scope, $window, $sce, $http, $sessionStor
       var imageData = imageUrl.split(',')[1].trim();
       var imageName = chartName + '.png';
 
-      results = results.replace(new RegExp('<canvas id="' + chartName + '".*<\/canvas>', 'g'), '<img src="tmp/' + imageName + '" >');
+      results = results.replace(new RegExp('<canvas id="' + chartName + '".*<\/canvas>', 'g'), '<img src="' + imageName + '" >');
      images.push({ name: imageName, data: imageData})
     });
     results = results.replace(new RegExp('<br>', 'g'), '<br />');

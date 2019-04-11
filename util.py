@@ -64,13 +64,10 @@ def send_mail(sender, recipient, subject, contents, attachments=None):
         if server and getattr(server, 'quit'):
             server.quit()
 
-def saveImages(images):
-    print(images)
+def saveImages(images, folder):
     for img in images:
         if 'data' in img and 'name' in img:
             filename = img['name']
-            print(filename)
             data = img['data']
-            print(data)
-            with open('tmp/' + filename, 'w') as ofile:
+            with open('{}/{}'.format(folder, filename), 'w') as ofile:
                 ofile.write(b64decode(data))

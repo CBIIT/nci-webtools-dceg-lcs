@@ -17,6 +17,7 @@ import random
 import os, base64
 import uuid
 from util import *
+import shutil
 
 with open ('LCWrapper.R') as fh:
         rcode = os.linesep.join(fh.readlines())
@@ -136,28 +137,36 @@ def exportPDF():
 # This route will return a list in JSON format
 @app.route('/exportPDF2/', methods=['POST', 'GET'])
 def exportPDF2():
-
-    if request.method=='GET':
-        f = open(request.args['dir'], 'rb')
-        data = f.read()
-        f.close()
-        os.remove(f.name)
-        response = make_response(data)
-        response.headers["Content-Disposition"] = "attachment; filename={}".format(PDF_FILE_NAME)
-        response.headers["Content-type"] = "application/pdf"
-    else:
-        html = request.json['html']
-        images = request.json['images']
-        saveImages(images)
-        token_id=uuid.uuid4()
-        html_input_file = './tmp/html_' + str(token_id) + '.html'
-        with open(html_input_file, 'w') as f:
-            f.write(html)
-        pdf_output_file = './tmp/results_' + str(token_id) + '.pdf'
-        os.system('java -jar html-pdf.jar ' + html_input_file + ' ' + pdf_output_file + ' pdf.css')
-        os.remove(html_input_file)
-        response = make_response(pdf_output_file)
-    return response
+    try:
+        if request.method=='GET':
+            f = open(request.args['dir'], 'rb')
+            data = f.read()
+            f.close()
+            shutil.rmtree(os.path.dirname(f.name))
+            response = make_response(data)
+            response.headers["Content-Disposition"] = "attachment; filename={}".format(PDF_FILE_NAME)
+            response.headers["Content-type"] = "application/pdf"
+        else:
+            html = request.json['html']
+            images = request.json['images']
+            token_id=uuid.uuid4()
+            folder = './tmp/' + str(token_id)
+            os.mkdir(folder)
+            saveImages(images, folder)
+            html_input_file = folder + '/pdf.html'
+            with open(html_input_file, 'w') as f:
+                f.write(html)
+            pdf_output_file = folder + '/result.pdf'
+            os.system('cd {}; java -jar ../../html-pdf.jar {} {} ../../pdf.css'.format(folder, 'pdf.html', 'result.pdf'))
+            os.remove(html_input_file)
+            for image in images:
+                os.remove('{}/{}'.format(folder, image['name']))
+            response = make_response(pdf_output_file)
+        return response
+    except Exception as e:
+        print('Exception occurred')
+        print(e)
+        return make_response({"status": False, "statusMessage": str(e)})
 
 @app.route('/lungCancerRest/ping/', strict_slashes=False)
 @app.route('/ping/', strict_slashes=False)
