@@ -139,26 +139,58 @@ app.controller("ResultCtrl", function($scope, $window, $sce, $http, $sessionStor
     $scope.chart_row3 = true;
     $scope.loading = true;
     $scope.$apply();
-            
+
     url = 'exportPDF/';
     var data = "";
     var html = createPrintablePage();
 
     $http({
+      method: 'POST',
+      url: url,
+      data: html,
+      headers: { 'Accept':'application/json, text/plain, * / *'}
+    }).success(function(data) {
+      // var byteCharacters = atob(data);
+      // var byteNumbers = new Array(byteCharacters.length);
+      // for (var i = 0; i < byteCharacters.length; i++) {
+      //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+      // };
+      // var byteArray = new Uint8Array(byteNumbers);
+      // var blob = new Blob([byteArray], {type: 'application/pdf'});
+      // fileURL = URL.createObjectURL(blob)
+      // window.location.replace(fileURL)
+      window.location.replace(url+"?dir="+data) /* Use this if decided to go with static files on server */
+    }).error(function(data) {
+
+    }).finally(function(data) {
+      $scope.loading = false;
+    });
+  };
+
+  $scope.exportPDF2 = function() {
+
+    $scope.export = true;
+    $scope.chart_row1 = true;
+    $scope.chart_row2 = true;
+    $scope.chart_row3 = true;
+    $scope.loading = true;
+    $scope.$apply();
+            
+    url = 'exportPDF2/';
+    var data = "";
+    var pdfData = createPrintablePage2();
+
+    $http({
         method: 'POST',
         url: url,
-        data: html,
-        headers: { 'Accept':'application/json, text/plain, * / *'}
+        data: {
+          html: pdfData.html,
+          images: pdfData.images
+        },
+        headers: { 'Accept':'application/json, text/plain, * / *',
+          'Content-Type': 'application/json'
+        }
       }).success(function(data) {
-          // var byteCharacters = atob(data);
-          // var byteNumbers = new Array(byteCharacters.length);
-          // for (var i = 0; i < byteCharacters.length; i++) {
-          //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-          // };
-          // var byteArray = new Uint8Array(byteNumbers);
-          // var blob = new Blob([byteArray], {type: 'application/pdf'});
-          // fileURL = URL.createObjectURL(blob)
-          // window.location.replace(fileURL)
           window.location.replace(url+"?dir="+data) /* Use this if decided to go with static files on server */
       }).error(function(data) {
 
@@ -203,4 +235,41 @@ app.controller("ResultCtrl", function($scope, $window, $sce, $http, $sessionStor
     html+= '</html>';
     return html;
   };
+
+  function createPrintablePage2() {
+    var html = "";
+    var source  = $("#results .ng-hide").remove();
+    var results = $("#results").html();
+    var charts = [
+        'chart_11',
+        'chart_12',
+        'chart_21',
+        'chart_22',
+        'chart_31',
+    ];
+
+    images = [];
+    charts.forEach(function(chartName) {
+      var imageUrl = document.getElementById(chartName).toDataURL();
+      var imageData = imageUrl.split(',')[1].trim();
+      var imageName = chartName + '.png';
+
+      results = results.replace(new RegExp('<canvas id="' + chartName + '".*<\/canvas>', 'g'), '<img src="tmp/' + imageName + '" >');
+     images.push({ name: imageName, data: imageData})
+    });
+    results = results.replace(new RegExp('<br>', 'g'), '<br />');
+    results = results.replace(new RegExp('(<img("[^"]*"|[^\/">])*)>', 'g'), '$1/>');
+
+    html+= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+    html+= '<html xmlns="http://www.w3.org/1999/xhtml">';
+    html+= '  <head>';
+    html+= '  <title>' + $scope.pdf_title + '</title>';
+    html+= '  </head>';
+    html+= '  <body>';
+    html+= results;
+    html+= '</body>';
+    html+= '</html>';
+    return {html: html, images: images};
+  };
 });
+

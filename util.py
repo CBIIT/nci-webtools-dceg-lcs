@@ -4,6 +4,7 @@ import smtplib
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from base64 import b64decode
 
 config = SafeConfigParser()
 config_file = os.environ.get('LCS_CONFIG_FILE', 'config.ini')
@@ -62,3 +63,14 @@ def send_mail(sender, recipient, subject, contents, attachments=None):
     finally:
         if server and getattr(server, 'quit'):
             server.quit()
+
+def saveImages(images):
+    print(images)
+    for img in images:
+        if 'data' in img and 'name' in img:
+            filename = img['name']
+            print(filename)
+            data = img['data']
+            print(data)
+            with open('tmp/' + filename, 'w') as ofile:
+                ofile.write(b64decode(data))

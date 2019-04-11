@@ -202,19 +202,19 @@
                     <!-- Square chart -->
                     <tr ng-if="chartType === 'square'">
                         <td class="results_grid">
-                            <canvas class="lcs-chart" values="[0, session.myForm.result0 / 10]"></canvas>
+                            <canvas id="chart_11" class="lcs-chart" values="[0, session.myForm.result0 / 10]"></canvas>
                         </td>
                         <td class="results_grid">
-                            <canvas class="lcs-chart" values="[0, (session.myForm.result0 - session.myForm.result1 ) / 10]"></canvas>
+                            <canvas id="chart_12" class="lcs-chart" values="[0, (session.myForm.result0 - session.myForm.result1 ) / 10]"></canvas>
                         </td>
                     </tr>
                     <!-- Bathroom chart -->
                     <tr ng-if="chartType === 'people'">
                         <td class="results_grid">
-                            <canvas class="lcs-chart " values="[0, session.myForm.result0 / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
+                            <canvas id="chart_11" class="lcs-chart " values="[0, session.myForm.result0 / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
                         </td>
                         <td class="results_grid">
-                            <canvas class="lcs-chart " values="[0, (session.myForm.result0 - session.myForm.result1) / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
+                            <canvas id="chart_12" class="lcs-chart " values="[0, (session.myForm.result0 - session.myForm.result1) / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
                         </td>
                     </tr>
                     <!-- Combined chart -->
@@ -460,19 +460,19 @@
                 <!-- Square charts -->
                 <tr ng-if="chartType === 'square'">
                     <td class="results_grid">
-                        <canvas class="lcs-chart " values="[0, session.myForm.result2 / 10]"></canvas>
+                        <canvas id="chart_21" class="lcs-chart " values="[0, session.myForm.result2 / 10]"></canvas>
                     </td>
                     <td class="results_grid">
-                        <canvas class="lcs-chart " values="[0, (session.myForm.result2 + session.myForm.result3) / 10]"></canvas>
+                        <canvas id="chart_22" class="lcs-chart " values="[0, (session.myForm.result2 + session.myForm.result3) / 10]"></canvas>
                     </td>
                 </tr>
                 <!-- Bathroom charts -->
                 <tr ng-if="chartType === 'people'">
                     <td class="results_grid">
-                        <canvas class="lcs-chart " values="[0, session.myForm.result2 / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
+                        <canvas id="chart_21" class="lcs-chart " values="[0, session.myForm.result2 / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
                     </td>
                     <td class="results_grid">
-                        <canvas class="lcs-chart " values="[0, (session.myForm.result2 + session.myForm.result3) / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
+                        <canvas id="chart_22" class="lcs-chart " values="[0, (session.myForm.result2 + session.myForm.result3) / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
                     </td>
                 </tr>
                 <!-- Combined chart -->
@@ -726,16 +726,16 @@
                             <img id="chart_5" ng-src="{{base_url}}images/grid_images/chart{{session.myForm.result4}}.png" alt="chart3" />
                         </td>
                         <td ng-if="chartType === 'square'" class="results_grid">
-                            <canvas class="lcs-chart " values="[session.myForm.result4 / 10]"></canvas>
+                            <canvas id="chart_31" class="lcs-chart " values="[session.myForm.result4 / 10]"></canvas>
                         </td>
                         <td ng-if="chartType === 'people'" class="results_grid">
-                            <canvas class="lcs-chart " values="[session.myForm.result4 / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
+                            <canvas id="chart_31" class="lcs-chart " values="[session.myForm.result4 / 10]" draw-image="true" icon-width="15" icon-height="40" gap-x="10"></canvas>
                         </td>
                         <td ng-if="chartType === 'combined'" class="results_grid">
-                            <canvas class="lcs-chart " values="[session.myForm.result4 / 10]"></canvas>
+                            <canvas id="chart_31" class="lcs-chart " values="[session.myForm.result4 / 10]"></canvas>
                         </td>
                         <td ng-if="chartType === 'combined2'" class="results_grid">
-                            <canvas class="lcs-chart" var-size="true" resolution="1000" values="[session.myForm.result4]" draw-image="true" n-row="20" n-col="50" icon-width="10" icon-height="30" gap-x="2" gap-y="1"></canvas>
+                            <canvas id="chart_31" class="lcs-chart" var-size="true" resolution="1000" values="[session.myForm.result4]" draw-image="true" n-row="20" n-col="50" icon-width="10" icon-height="30" gap-x="2" gap-y="1"></canvas>
                         </td>
                     </tr>
                     <!-- Bottom description -->
@@ -865,5 +865,5 @@
 <div ng-show="summary">We know that was a lot of information, you may save or print the summary report</div><br />
 <div class="summaryButtons">
     <p class="pdf_loading" ng-show="loading"></p>
-    <button ng-click="exportPDF()" ng-show="summary">Save Summary Report</button>
+    <button ng-click="exportPDF2()" ng-show="summary">Save Summary Report</button>
 </div>
