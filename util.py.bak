@@ -1,4 +1,4 @@
-from configparser import SafeConfigParser
+from ConfigParser import SafeConfigParser
 import os
 import smtplib
 from email.mime.application import MIMEApplication
