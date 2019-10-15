@@ -114,7 +114,7 @@ def exportPDF():
         f.close()
         os.remove(f.name)
         response = make_response(data)
-        response.headers["Content-Disposition"] = "attachment filename={}".format(PDF_FILE_NAME)
+        response.headers["Content-Disposition"] = "attachment; filename={}".format(PDF_FILE_NAME)
         response.headers["Content-type"] = "application/pdf"
     else:
         token_id=uuid.uuid4()
@@ -148,7 +148,7 @@ import argparse
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", dest="port_number", default="9982", help="Sets the Port")
-    # Default port is production value prod,stage,dev = 9982, sandbox=9983
+    # Default port is production value; prod,stage,dev = 9982, sandbox=9983
     args = parser.parse_args()
     port_num = int(args.port_number)
 
