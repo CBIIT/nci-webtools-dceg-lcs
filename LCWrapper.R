@@ -1,4 +1,4 @@
-library('RJSONIO')
+library('jsonlite')
 source('./LC.R')
 
 imageDirectory = "./tmp"

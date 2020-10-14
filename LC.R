@@ -1,4 +1,4 @@
-library('RJSONIO')
+library('jsonlite')
 library('stringr')
 
 #source ('./BiomarkerComparison.R')
