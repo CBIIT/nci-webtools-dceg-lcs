@@ -431,27 +431,27 @@ app.controller("FormCtrl", function ($scope, $sce, $http, $sessionStorage, $loca
     $scope.myForm.validationFailed = true;
 
     /* Ajax call to process results */
-    $http.post(url, GLOBAL_DATA)
-      .success(function (data, status, headers, config) {
+    $http.post(url, GLOBAL_DATA).then(
+      function handleSuccess (response) {
+        var data = response.data;
         if (data.length) {
           $scope.myForm.resultsFileLink = data.pop();
           $scope.myForm.setResultValues(data);
           $scope.myForm.summary = $scope.myForm.createSummary(params.bmi);
+          $scope.myForm.isInvalid = false;
+          $scope.myForm.validationFailed = false;
+          $scope.myForm.loading = false;
+          $sessionStorage.params = params;
+          $sessionStorage.myForm = $scope.myForm;
+          $scope.$parent.resultsDisabled = false;
+          $location.path('/results')
         }
-      })
-      .error(function (data, status, headers, config) {
-        console.log('status is: ', status);
+      },
+      function handleError (error) {
+        console.log('status is: ', error);
         $scope.myForm.error = true;
-      })
-      .finally(function (data) {
-        $scope.myForm.isInvalid = false;
-        $scope.myForm.validationFailed = false;
-        $scope.myForm.loading = false;
-        $sessionStorage.params = params;
-        $sessionStorage.myForm = $scope.myForm;
-        $scope.$parent.resultsDisabled = false;
-        $location.path('/results')
-      });
+      },
+    )
   };
 
   $scope.myForm.printPage = function () {

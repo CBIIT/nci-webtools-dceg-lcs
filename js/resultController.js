@@ -138,34 +138,27 @@ app.controller("ResultCtrl", function($scope, $window, $sce, $http, $sessionStor
     $scope.chart_row2 = true;
     $scope.chart_row3 = true;
     $scope.loading = true;
-    $scope.$apply();
-            
-    url = 'exportPDF/';
-    var data = "";
-    var html = createPrintablePage();
-
-    $http({
-        method: 'POST',
-        url: url,
-        data: html,
-        headers: { 'Accept':'application/json, text/plain, * / *'}
-      }).success(function(data) {
-          // var byteCharacters = atob(data);
-          // var byteNumbers = new Array(byteCharacters.length);
-          // for (var i = 0; i < byteCharacters.length; i++) {
-          //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-          // };
-          // var byteArray = new Uint8Array(byteNumbers);
-          // var blob = new Blob([byteArray], {type: 'application/pdf'});
-          // fileURL = URL.createObjectURL(blob)
-          // window.location.replace(fileURL)
-          window.location.replace(url+"?dir="+data) /* Use this if decided to go with static files on server */
-      }).error(function(data) {
-
-      }).finally(function(data) {
+    $scope.$applyAsync();
+    
+    setTimeout(function() {
+      var html = createPrintablePage();
+      $http.post('exportPDF/', html).then(function(response) {
+        // var byteCharacters = atob(data);
+        // var byteNumbers = new Array(byteCharacters.length);
+        // for (var i = 0; i < byteCharacters.length; i++) {
+        //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+        // };
+        // var byteArray = new Uint8Array(byteNumbers);
+        // var blob = new Blob([byteArray], {type: 'application/pdf'});
+        // fileURL = URL.createObjectURL(blob)
+        // window.location.replace(fileURL)
+        window.location.replace("exportPDF/?dir="+response.data) /* Use this if decided to go with static files on server */
         $scope.loading = false;
       });
-  };
+    }, 100)
+            
+  }
+
 
   $scope.print = function() {
     print(createPrintablePage())
