@@ -18,7 +18,7 @@ TITLE = config.get('export', 'title')
 PDF_FILE_NAME = config.get('export', 'pdf_file_name')
 PDF_TITLE = config.get('export', 'title')
 
-CLIENT_APP_FOLDER = os.path.join(os.environ['PWD'], config.get('client', 'app_folder'))
+CLIENT_APP_FOLDER = os.path.join(os.path.dirname(__file__), config.get('client', 'app_folder'))
 
 def send_mail(sender, recipient, subject, contents, attachments=None):
     """Sends an email to the provided recipient
