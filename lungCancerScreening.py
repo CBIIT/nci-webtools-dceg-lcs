@@ -7,8 +7,8 @@ import time
 import json
 import io
 from flask import Flask, send_file,  request, jsonify, make_response
-from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
-from rpy2.robjects.vectors import IntVector, FloatVector
+# from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
+# from rpy2.robjects.vectors import IntVector, FloatVector
 from rpy2.robjects import r
 import traceback
 from socket import gethostname
@@ -18,9 +18,7 @@ import os, base64
 import uuid
 from util import *
 
-with open ('LCWrapper.R') as fh:
-        rcode = os.linesep.join(fh.readlines())
-        wrapper = SignatureTranslatedAnonymousPackage(rcode,"wrapper")
+r.source('LCWrapper.R')
 
 # Initialize the Flask application
 if __name__ == '__main__':
@@ -83,7 +81,7 @@ def lungCancerRest():
                        'Chance of false-positive CT lung screen'
                       ]
 
-        fromR = (wrapper.getJSONData(age,bmi,cpd,emp,famlungtrend,gender,qtyears,smkyears,race,edu6,pkyrcat))
+        fromR = (r.getJSONData(age,bmi,cpd,emp,famlungtrend,gender,qtyears,smkyears,race,edu6,pkyrcat))
         fromRstr = ''.join(fromR)
         string = json.loads(fromRstr)
 
