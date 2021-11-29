@@ -9,3 +9,4 @@ localserver.py
 */node_modules/
 tmp/
 tests/*.xml
+server/venv

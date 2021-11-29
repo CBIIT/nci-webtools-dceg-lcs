@@ -7,12 +7,11 @@ import { useState } from "react";
 import {
     resultsState
 } from "../states/state";
-import { renderToString } from 'react-dom/server';
+import PDFDocument from 'pdfkit/js/pdfkit.standalone'
+import blobStream from 'blob-stream'
+import { saveAs } from 'file-saver'
+import imageToBase64 from 'image-to-base64/browser';
 
-function Print() {
-
-    console.log(renderToString(document.getElementById('print')))
-}
 
 export default function Results() {
     const [results, setResult] = useRecoilState(resultsState);
@@ -21,14 +20,271 @@ export default function Results() {
     const [page, setPage] = useState(1)
     const baseUrl = window.location.origin + window.location.pathname;
 
-    Print()
-
     function handleShowResults() {
         setView(true)
     }
 
     function handleShowData() {
         showData(true)
+    }
+
+    function getHeight() {
+
+        if (results.bmiSelection.value === 'bmi' || results.bmiSelection.value === 'unknown') {
+            return 'Unknown'
+        }
+
+        if (results.units.value === 'us')
+            return `${results.feet} feet ${results.inches} inch(es)`
+        else
+            return `${results.cm} cm(s)`
+    }
+
+    function getWeight() {
+
+        if (results.bmiSelection.value === 'bmi' || results.bmiSelection.value === 'unknown') {
+            return 'Unknown'
+        }
+
+        if (results.units.value === 'us')
+            return `${results.pounds} pounds`
+        else
+            return `${results.kg} kgs`
+    }
+
+    async function exportPDF() {
+
+        const doc = new PDFDocument()
+        const stream = doc.pipe(blobStream())
+
+        doc.fontSize(12)
+        doc.font('Helvetica-Bold').text('Your Answers')
+        doc.font('Helvetica')
+        doc.fontSize(10)
+        doc.addStructure(doc.struct('P', () => {
+            doc.text('These results are based upon how you answered the following questions').moveDown(1)
+        }))
+
+        doc.addStructure(doc.struct('P', () => {
+            doc.text('Questions:').moveDown(1)
+        }))
+
+        const questionSection = doc.struct('Sect')
+        doc.addStructure(questionSection)
+
+        const questions = doc.struct('List')
+        questionSection.add(questions)
+
+        var questionData = [
+            `Age: ${results.age.value}`,
+            `Gender: ${results.gender.label}`,
+            `Height: ${getHeight(results)}`,
+            `Weight: ${getWeight(results)}`,
+            `BMI: ${results.bmi}`,
+            `Racial or ethnic group: ${results.race_group.label}`,
+            `Highest level of education obtained: ${results.education.label}`,
+            `Type of smoker: ${results.smoker_type.label}`,
+            `How old were you when you started smoking?: ${results.start.value}`
+        ]
+
+        if (results.smoker_type.value === 'former')
+            questionData = questionData.concat([`How old were you when you quit successfully?: ${results.end}`])
+
+        questionData = questionData.concat([
+            `History of lung disease: ${results.disease.label}`,
+            `Family history of lung cancer (must be blood relative), including parents and siblings: ${results.history.label}`,
+            `Pack-years: ${results.packYears}`
+        ])
+
+        doc.list(questionData, { structParent: questions }).moveDown(1.5)
+        doc.font('Helvetica-Bold').text('Benefits of Lung Cancer Screening', { align: 'center' }).moveDown(2)
+
+        var yPos = doc.y
+        doc
+            .fontSize(9)
+            .text('IF YOU DO NOT GET CT LUNG SCREENING', 50, yPos)
+            .text('IF YOU DO GET CT LUNG SCREENING', 350, yPos).moveDown(1)
+
+        yPos = doc.y
+        doc
+            .fontSize(9)
+            .font('Helvetica').text(`Your chances of dying from lung cancer within 5 years are `, 50, yPos, { continued: true, width: 200 }).font('Helvetica-Bold').text(`${getResult(0, 1) / 10}%`)
+            .font('Helvetica').text(`Your chances of dying from lung cancer within 5 years are `, 350, yPos, { continued: true, width: 200 }).font('Helvetica-Bold').text(`${(results.results[0] - results.results[1]) / 10}%`)
+
+        yPos = doc.y
+
+        var blueBox;
+        var whiteBox;
+
+        await imageToBase64(`assets/images/cellfill.png`).then((res) => {
+            blueBox = `data:image/png;base64,${res}`
+        })
+
+        await imageToBase64(`assets/images/cellempty.png`).then((res) => {
+            whiteBox = `data:image/png;base64,${res}`
+        })
+
+        await imageToBase64(`assets/images/grid_images/chart_rl_${results.results[0]}.png`).then((res) => {
+            doc.image(`data:image/png;base64,${res}`, 50, yPos, { width: 225 })
+        })
+        await imageToBase64(`assets/images/grid_images/chart_rl_${results.results[0] - results.results[1]}.png`).then((res) => {
+            doc.image(`data:image/png;base64,${res}`, 350, yPos, { width: 225 }).moveDown(0.5)
+        })
+
+        yPos = doc.y
+        doc.font('Helvetica')
+        doc.image(blueBox, 50, yPos, { width: 8 })
+        doc.text('Death from lung cancer', 65, yPos)
+        doc.image(blueBox, 350, yPos, { width: 8 })
+        doc.text('Death from lung cancer', 365, yPos)
+
+        yPos = doc.y
+        doc.image(whiteBox, 50, yPos, { width: 8 })
+        doc.text('Alive (with or without lung cancer)', 65, yPos)
+        doc.image(whiteBox, 350, yPos, { width: 8 })
+        doc.text('Alive (with or without lung cancer)', 365, yPos).moveDown(1)
+
+        yPos = doc.y
+
+        doc.addStructure(doc.struct('P', () => {
+            doc
+                .text(`This means that if 1000 people answer the questions just like you, `, 50, yPos, { continued: true, width: 250 })
+                .font('Helvetica-Bold').text(`${results.results[0]}`, { continued: true })
+                .font('Helvetica').text(' of them would die from lung cancer in the next 5 years if they did not receive CT lung screening.')
+        }))
+        
+        doc.addStructure(doc.struct('P', () => {
+            doc
+                .text(`This means that if 1000 people answer the questions just like you, `, 350, yPos, { continued: true, width: 250 })
+                .font('Helvetica-Bold').text(`${results.results[0] - results.results[1]}`, { continued: true })
+                .font('Helvetica').text(' instead of ', { continued: true })
+                .font('Helvetica-Bold').text(`${results.results[0]}`, { continued: true })
+                .font('Helvetica').text(` ${getPeopleOrPerson(results.results[0])} would die from lung cancer if they receive yearly CT lung screening: a decrease of `, { continued: true })
+                .font('Helvetica-Bold').text(`${getResult(1, 1)}`, { continued: true })
+                .font('Helvetica').text(' out of 1000 people.')
+        }))
+
+        doc.addPage()
+
+        doc.font('Helvetica-Bold').text('Other Information about Lung Cancer Screening', { align: 'center' }).moveDown(2)
+        yPos = doc.y
+        doc
+            .fontSize(9)
+            .text('IF YOU DO NOT GET CT LUNG SCREENING', 50, yPos)
+            .text('IF YOU DO GET CT LUNG SCREENING', 350, yPos).moveDown(1)
+
+        yPos = doc.y
+        doc
+            .fontSize(9)
+            .font('Helvetica').text(`Your chances of being diagnosed with lung cancer within 5 years are `, 50, yPos, { continued: true, width: 200 }).font('Helvetica-Bold').text(`${getResult(2, 1) / 10}%`)
+            .font('Helvetica').text(`Your chances of being diagnosed with lung cancer within 5 years are `, 350, yPos, { continued: true, width: 200 }).font('Helvetica-Bold').text(`${(results.results[3] + results.results[2]) / 10}%`)
+
+        yPos = doc.y
+
+        await imageToBase64(`assets/images/grid_images/chart_rl_${results.results[2]}.png`).then((res) => {
+            doc.image(`data:image/png;base64,${res}`, 50, yPos, { width: 225 })
+        })
+        await imageToBase64(`assets/images/grid_images/chart_rl_${results.results[3] + results.results[2]}.png`).then((res) => {
+            doc.image(`data:image/png;base64,${res}`, 350, yPos, { width: 225 }).moveDown(0.5)
+        })
+
+        yPos = doc.y
+        doc.font('Helvetica')
+        doc.image(blueBox, 50, yPos, { width: 8 })
+        doc.text('Diagnosed with lung cancer', 65, yPos)
+        doc.image(blueBox, 350, yPos, { width: 8 })
+        doc.text('Diagnosed with lung cancer', 365, yPos)
+
+        yPos = doc.y
+        doc.image(whiteBox, 50, yPos, { width: 8 })
+        doc.text('NOT diagnosed with lung cancer', 65, yPos)
+        doc.image(whiteBox, 350, yPos, { width: 8 })
+        doc.text('NOT diagnosed with lung cancer', 365, yPos).moveDown(1)
+
+        yPos = doc.y
+
+        doc.addStructure(doc.struct('P', () => {
+            doc
+                .text(`This means that if 1000 people answer the questions just like you, `, 50, yPos, { continued: true, width: 250 })
+                .font('Helvetica-Bold').text(`${results.results[2]}`, { continued: true })
+                .font('Helvetica').text(` ${getPeopleOrPerson(results.results[2])} would be diagnosed with lung cancer in the next 5 years if they did not receive CT lung screening.`)
+        }))
+
+        doc.addStructure(doc.struct('P', () => {
+            doc
+                .text(`This means that if 1000 people answer the questions just like you, `, 350, yPos, { continued: true, width: 250 })
+                .font('Helvetica-Bold').text(`${results.results[3] + results.results[2]}`, { continued: true })
+                .font('Helvetica').text(' instead of ', { continued: true })
+                .font('Helvetica-Bold').text(`${results.results[2]}`, { continued: true })
+                .font('Helvetica').text(` ${getPeopleOrPerson(results.results[2])} would be diagnosed with lung cancer if they receive yearly CT lung screening: an increase of `, { continued: true })
+                .font('Helvetica-Bold').text(`${results.results[3]}`, { continued: true })
+                .font('Helvetica').text(' out of 1000 people.')
+        }))
+
+        doc.moveDown(5)
+        yPos = doc.y
+        doc.font('Helvetica-Bold').text('Harms of Lung Cancer Screening', 225, yPos).moveDown(2)
+
+        doc
+            .fontSize(9)
+            .text('IF YOU DO GET CT LUNG SCREENING', 50).moveDown(1)
+
+        yPos = doc.y
+        doc
+            .fontSize(9)
+            .font('Helvetica').text(`If you receive yearly CT lung screening for 3 years, your chances of receiving at least one "false alarm" (a false positive result) are `, 50, yPos, { continued: true, width: 300 })
+            .font('Helvetica-Bold').text(`${results.results[4]}`, { continued: true })
+            .font('Helvetica').text(' out of 1000 people.')
+
+        yPos = doc.y
+
+        await imageToBase64(`assets/images/grid_images/chart_rl_${results.results[4]}.png`).then((res) => {
+            doc.image(`data:image/png;base64,${res}`, 50, yPos, { width: 225 }).moveDown(0.5)
+        })
+
+        yPos = doc.y
+        doc.font('Helvetica')
+        doc.image(blueBox, 50, yPos, { width: 8 })
+        doc.text('Had a false alarm (positive screening test but does not actually have lung cancer)', 65, yPos)
+
+        yPos = doc.y
+        doc.image(whiteBox, 50, yPos, { width: 8 })
+        doc.text('Did NOT have a false alarm', 65, yPos).moveDown(1)
+
+        yPos = doc.y
+
+        doc.addStructure(doc.struct('P', () => {
+            doc
+                .text(`This means that if 1000 people answer the questions just like you, `, 50, yPos, { continued: true, width: 250 })
+                .font('Helvetica-Bold').text(`${results.results[4]}`, { continued: true })
+                .font('Helvetica').text(` ${getPeopleOrPerson(results.results[4])} would receive a false alarm in the next 3 years if they received yearly CT lung screening.`).moveDown(2)
+        }))
+
+        doc.addStructure(doc.struct('P', () => {
+            doc
+                .font('Helvetica-Bold').text('The best way', { continued: true })
+                .font('Helvetica').text(' to lower your risk of lung cancer, and all smoking-related diseases, is to quit smoking. Learn more by visiting ', { continued: true })
+                .fillColor('blue').text('smokefree.gov', { link: 'https://smokefree.gov/', underline: true, continued: true })
+                .fillColor('black').text(', the CDC ', { continued: true, link: null, underline: false })
+                .fillColor('blue').text('quitting smoking ', { link: 'https://www.cdc.gov/tobacco/quit_smoking/', underline: true, continued: true })
+                .fillColor('black').text('page, or by calling 1-800-QUIT-NOW.', { link: null, underline: false }).moveDown(2)
+        }))
+
+        doc.addStructure(doc.struct('P', () => {
+            doc.text(`Learning about lung cancer and its treatment can help you prepare for your doctors' appointments. For more information about lung cancer screening, check out the following websites:`)
+        }))
+
+        doc.fillColor('blue')
+        doc.text('MSKCC Lung Cancer Screening Decision Tool', { link: 'http://nomograms.mskcc.org/Lung/Screening.aspx', underline: true })
+        doc.text('SIS Lung Cancer Screening Tool', { link: 'https://shouldiscreen.com/English/lung-cancer-risk-calculator', underline: true })
+        doc.text('AHRQ Lung Cancer Screening Decision Tool', { link: 'https://effectivehealthcare.ahrq.gov/tools-and-resources/patient-decision-aids/lung-cancer-screening/patient/', underline: true })
+
+        doc.end()
+
+        stream.on('finish', function () {
+            const blob = stream.toBlob('application/pdf')
+            saveAs(blob, 'LungCancerScreeningResults.pdf')
+        })
     }
 
     function getResult(num, type) {
@@ -65,6 +321,8 @@ export default function Results() {
 
         return true
     }
+
+
     return (
         <Container id='print' className="my-4">
             <h2>Your Answers</h2>
@@ -94,7 +352,7 @@ export default function Results() {
                     <b>Height</b>
                 </div>
 
-                {results.bmiSelection.value === 'bmi' && <div className='col-md-5'>
+                {(results.bmiSelection.value === 'bmi' || results.bmiSelection.value === 'unknonwn') && <div className='col-md-5'>
                     Unknown
                 </div>}
 
@@ -268,7 +526,7 @@ export default function Results() {
 
                     <div className='row pt-3'>
                         <div className='col-md-6'>
-                            <img alt='chart-1' src={`assets/images/grid_images/chart_rl_${results.results[0]}.png`} />
+                            <img id='img1' alt='chart-1' src={`assets/images/grid_images/chart_rl_${results.results[0]}.png`} />
                             <div>
                                 <span>
                                     <img style={{ width: '10px', height: '10px', border: '1px solid #777', marginRight: '5px' }} src="assets/images/cellfill.png" alt="filled cell" />Death from lung cancer<br />
@@ -326,10 +584,10 @@ export default function Results() {
 
                     <div className='row pt-3'>
                         <div className='col-md-6'>
-                            <p>Your chances of dying from lung cancer within 5 years are <b>{getResult(2, 1) / 10}%</b></p>
+                            <p>Your chances of being diagnosed with lung cancer within 5 years are <b>{getResult(2, 1) / 10}%</b></p>
                         </div>
                         <div className='col-md-6'>
-                            <p>Your chances of dying from lung cancer within 5 years are <b>{(results.results[3] + results.results[2]) / 10}%</b></p>
+                            <p>Your chances of being diagnosed with lung cancer within 5 years are <b>{(results.results[3] + results.results[2]) / 10}%</b></p>
                         </div>
                     </div>
 
@@ -360,15 +618,16 @@ export default function Results() {
 
                         <div className='row pt-3'>
                             <div className='col-md-6'>
-                                <p className='col-md-10'>his means that if 1000 people answer the questions just like you, <b>{results.results[2]}</b> {getPeopleOrPerson(results.results[2])} would be diagnosed with lung cancer in the next 5 years if they did not receive CT lung screening.</p>
+                                <p className='col-md-10'>This means that if 1000 people answer the questions just like you, <b>{results.results[2]}</b> {getPeopleOrPerson(results.results[2])} would be diagnosed with lung cancer in the next 5 years if they did not receive CT lung screening.</p>
                             </div>
                             <div className='col-md-6'>
                                 <p className='col-md-10'>This means that if 1000 people answer the questions just like you,
-                                    <b>{results.results[3] + results.results[2]} </b>
-                                    instead of <b>{results.results[2]}</b> {getPeopleOrPerson(results.results[2])}
-                                    would be diagnosed with lung cancer
+                                    <b> {results.results[3] + results.results[2]} </b>
+                                    instead of <b>{results.results[2]}</b> {getPeopleOrPerson(results.results[2])} would be diagnosed with lung cancer
                                     if they receive yearly CT lung screening: an
                                     increase of <b>{results.results[3]}</b> out of 1000 people.</p>
+
+                                <p className='col-md-10'>Your chances of being diagnosed with lung cancer within 5 years will be increased by <b>{results.results[3] / 10}%</b>.</p>
 
                                 <Button className='mx-1' type="submit" onClick={() => setPage(1)}>
                                     Back
@@ -436,9 +695,9 @@ export default function Results() {
                         <div ng-show="summary">We know that was a lot of information, you may save or print the summary report</div><br />
 
                         <div>
-                            <Button className='mt-2' type="submit" onClick={() => setPage(2)}>
-                                Save Summary Report
-                            </Button>   
+                            <Button type="submit" onClick={exportPDF}>
+                                Download
+                            </Button>
                         </div>
                     </div>
                 </div>}

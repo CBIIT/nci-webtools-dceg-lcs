@@ -1,0 +1,2 @@
+FLASK_APP=lungCancerScreening.py
+FLASK_ENV=development
