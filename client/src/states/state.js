@@ -23,6 +23,7 @@ export const defaultFormState = {
     results: [],
     unstable: false,
     loading: false,
+    submitted: false,
   };
   
   export const resultsState = atom({

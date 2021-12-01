@@ -696,7 +696,7 @@ export default function Results() {
 
                         <div>
                             <Button type="submit" onClick={exportPDF}>
-                                Download
+                                Save Summary Report
                             </Button>
                         </div>
                     </div>

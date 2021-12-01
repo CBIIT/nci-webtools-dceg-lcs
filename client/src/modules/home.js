@@ -77,7 +77,7 @@ export default function Home() {
                 response[2] = response[0]
             }
 
-            setResults({ ...form, results: response, unstable: (response[0] > response[2] ? true : false), loading: false })
+            setResults({ ...form, results: response, unstable: (response[0] > response[2] ? true : false), loading: false, submitted: true })
             history.push('/results')
         })
 
