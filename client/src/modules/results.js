@@ -18,7 +18,6 @@ export default function Results() {
     const [view, setView] = useState(false)
     const [data, showData] = useState(false)
     const [page, setPage] = useState(1)
-    const baseUrl = window.location.origin + window.location.pathname;
 
     function handleShowResults() {
         setView(true)

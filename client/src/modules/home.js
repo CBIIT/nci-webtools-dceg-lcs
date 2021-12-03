@@ -66,7 +66,7 @@ export default function Home() {
             'pkyr.cat': Math.round(form.packYears * 100) / 100,
         }
 
-        await postJSON('/lungCancerRest/', params).then((response) => {
+        await postJSON('/lungCancerScreening/lungCancerRest/', params).then((response) => {
 
             
             for (var i = 0; i <= 5; i++) {
