@@ -28,7 +28,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:lungCancerScreening": "REACT_APP_PROJECT=LCScreening && react-scripts start",
+    "start:lungCancerRiskAssessment": "REACT_APP_PROJECT=LCRisk && react-scripts start",
     "build": "react-scripts build",
+    "build:lungCancerScreening": "REACT_APP_PROJECT=LCScreening && react-scripts build",
+    "build:lungCancerRiskAssessment": "REACT_APP_PROJECT=LCRisk && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
