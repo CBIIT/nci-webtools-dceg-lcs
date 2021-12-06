@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import LCScreening from './LCScreening';
+import LCRisk from './LCRisk';
 import reportWebVitals from './reportWebVitals';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {process.env.REACT_APP_PROJECT === 'LCScreening' ? <LCScreening/> : <LCRisk/>}
   </React.StrictMode>,
   document.getElementById('root')
 );

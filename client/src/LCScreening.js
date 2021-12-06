@@ -3,14 +3,14 @@ import { RecoilRoot } from "recoil";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import './styles/main.scss';
 import Home from "./modules/home";
-import Results from './modules/results';
+import LCSResults from './modules/lcs-results';
 import About from './modules/about';
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-function App() {
+function LCScreening() {
 
   return (
 
@@ -68,7 +68,7 @@ function App() {
           </BootstrapNavbar>
           <Switch>
             <Route path="/" exact={true} component={Home} />
-            <Route path="/results" component={Results} />
+            <Route path="/results" component={LCSResults} />
             <Route path="/about" component={About} />
           </Switch>
         </Router>
@@ -174,4 +174,4 @@ function App() {
   )
 }
 
-export default App;
+export default LCScreening;

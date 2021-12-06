@@ -84,11 +84,8 @@ export default function Home() {
     }
 
     function handleChange(name, event) {
-        console.log(event)
         mergeForm({ [name]: event });
     }
-
-    console.log(results)
 
     const numRange = (min, max) => {
         var list = []
@@ -132,7 +129,6 @@ export default function Home() {
 
     const calculatePackYears = (event) => {
         const { smoker_type, age, start, end, cigs } = { ...form, [event.name]: event.value };
-        console.log({ smoker_type, age, start, end, cigs })
 
         if (smoker_type.value === 'current' && age.value && start.value && cigs) {
             return ((age.value - start.value) * (cigs / 20))
@@ -514,7 +510,6 @@ export default function Home() {
                             />
                         </div>
                     </Form.Group>
-                    {console.log(isValid())}
                     <div className="col-md-8 px-4 text-end">
                         <Button variant="primary" type="submit" onClick={handleSubmit} disabled={!isValid()}>
                             Calculate

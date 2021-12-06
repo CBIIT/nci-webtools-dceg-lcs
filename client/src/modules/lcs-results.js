@@ -1,6 +1,4 @@
 import Container from "react-bootstrap/Container";
-import Card from 'react-bootstrap/Card';
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
@@ -13,7 +11,7 @@ import { saveAs } from 'file-saver'
 import imageToBase64 from 'image-to-base64/browser';
 
 
-export default function Results() {
+export default function LCSResults() {
     const [results, setResult] = useRecoilState(resultsState);
     const [view, setView] = useState(false)
     const [data, showData] = useState(false)
