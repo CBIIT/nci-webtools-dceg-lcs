@@ -19,7 +19,7 @@ export default function Home() {
     const mergeForm = (obj) => setForm({ ...form, ...obj });
     const [results, setResults] = useRecoilState(resultsState);
     const history = useHistory()
-    const baseUrl = window.location.origin + window.location.pathname;
+    const baseUrl = window.location.origin;
 
     console.log(baseUrl)
 
