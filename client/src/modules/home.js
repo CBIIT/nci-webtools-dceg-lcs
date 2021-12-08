@@ -19,6 +19,9 @@ export default function Home() {
     const mergeForm = (obj) => setForm({ ...form, ...obj });
     const [results, setResults] = useRecoilState(resultsState);
     const history = useHistory()
+    const baseUrl = window.location.origin + window.location.pathname;
+
+    console.log(baseUrl)
 
     const bmiHigh = 50
     const bmiLow = 15
@@ -68,12 +71,12 @@ export default function Home() {
 
         await postJSON('/lungCancerScreening/lungCancerRest/', params).then((response) => {
 
-            
+
             for (var i = 0; i <= 5; i++) {
                 response[i] = Math.round(response[i])
             }
 
-            if(response[0] > response[2]){
+            if (response[0] > response[2]) {
                 response[2] = response[0]
             }
 
@@ -174,10 +177,9 @@ export default function Home() {
     }
 
     return (
-
         <Container className="my-4">
             <LoadingOverlay active={results.loading} overlayStyle={{ position: 'fixed' }} />
-            <div className="col-xl-12">
+            {process.env.REACT_APP_PROJECT === 'LCScreening' && <div className="col-xl-12">
                 <p>
                     This tool uses basic information on smoking behavior and data from the National Lung Cancer Screening Trial (NLST) to determine the following:
                 </p>
@@ -190,7 +192,18 @@ export default function Home() {
                 <p className="text-bold">
                     The best way to lower your risk of lung cancer, and all smoking related diseases, is to quit smoking. Learn more by visiting <a target="_blank" href="https://smokefree.gov/" class='font-weight-bold'>smokefree.gov</a>, the CDC <a target="_blank" href="https://www.cdc.gov/tobacco/quit_smoking/">quitting smoking</a> page, or by calling 1-800-QUIT-NOW.
                 </p>
-            </div>
+            </div>}
+            {process.env.REACT_APP_PROJECT === 'LCRisk' && <div className="col-xl-12">
+                <p>
+                    This tool uses basic information on smoking behavior and data from the NCI Prostate Lung Colorectal and Ovarian Cancer Screening Trial (PLCO) to predict the user’s chance of being diagnosed with lung cancer in the next 5 years, or dying from lung cancer in the next 5 years.
+                </p>
+                <p>
+                    The <a href={baseUrl + '/lungCancerScreening'} target="_blank">Risk-based NLST Outcome Tool (RNOT)</a> estimates the user’s chance of dying from lung cancer (using the Lung Cancer Death Risk Assessment Tool (LCDRAT)).
+                </p>
+                <p className="text-bold">
+                    The best way to lower your risk of lung cancer, and all smoking related diseases, is to quit smoking. Learn more by visiting <a target="_blank" href="https://smokefree.gov/" class='font-weight-bold'>smokefree.gov</a>, the CDC <a target="_blank" href="https://www.cdc.gov/tobacco/quit_smoking/">quitting smoking</a> page, or by calling 1-800-QUIT-NOW.
+                </p>
+            </div>}
             <Card>
                 <Card.Header className="bg-primary text-light">Risk Tool</Card.Header>
                 <Card.Body>
