@@ -69,9 +69,11 @@ export default function Home() {
             'pkyr.cat': Math.round(form.packYears * 100) / 100,
         }
 
+        console.log(params)
+
         await postJSON('/lungCancerScreening/lungCancerRest/', params).then((response) => {
 
-
+            console.log(response)
             for (var i = 0; i <= 5; i++) {
                 response[i] = Math.round(response[i])
             }
@@ -498,8 +500,8 @@ export default function Home() {
                                 value={form.disease}
                                 onChange={(event) => handleChange('disease', event)}
                                 options={[
-                                    { value: '0', label: 'COPD or Emphysema or chronic bronchitis' },
-                                    { value: '1', label: 'None' },
+                                    { value: '1', label: 'COPD or Emphysema or chronic bronchitis' },
+                                    { value: '0', label: 'None' },
                                     { value: '2', label: 'Unknown' },
                                 ]}
                             />

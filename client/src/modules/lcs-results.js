@@ -158,7 +158,15 @@ export default function LCSResults() {
                 .font('Helvetica-Bold').text(`${results.results[0]}`, { continued: true })
                 .font('Helvetica').text(` ${getPeopleOrPerson(results.results[0])} would die from lung cancer if they receive yearly CT lung screening: a decrease of `, { continued: true })
                 .font('Helvetica-Bold').text(`${getResult(1, 1)}`, { continued: true })
-                .font('Helvetica').text(' out of 1000 people.')
+                .font('Helvetica').text(' out of 1000 people.').moveDown(1)
+        }))
+
+        yPos = doc.y
+
+        doc.addStructure(doc.struct('P', () => {
+            doc
+                .text('Your chances of dying from lung cancer within 5 years will be reduced by ', 350, yPos, { continued: true, width: 250 })
+                .font('Helvetica-Bold').text(`${getResult(1, 1)/10}%`)
         }))
 
         doc.addPage()
@@ -556,6 +564,7 @@ export default function LCSResults() {
                                 die from lung cancer if they receive yearly CT lung screening: a
                                 decrease of <b>{getResult(1, 1)}</b> out of 1000 people. </p>
 
+                            <p>Your chances of dying from lung cancer within 5 years will reduced by <b>{results.results[1]/10}%</b></p>
                             <Button type="submit" onClick={() => setPage(2)}>
                                 Next
                             </Button>
