@@ -1,5 +1,5 @@
 import { NCIHeader } from '@cbiitss/react-components'
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilState } from "recoil";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import './styles/main.scss';
 import Home from "./modules/home";
@@ -7,13 +7,22 @@ import LCSResults from './modules/lcs-results';
 import About from './modules/about';
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
-import { Nav, NavDropdown } from "react-bootstrap";
+import { Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import {
+  defaultFormState,
+  resultsState
+} from './states/state';
+import { useState } from 'react';
 
 function LCScreening() {
 
-  return (
+  const [results, setResult] = useRecoilState(resultsState)
+  const [show, setShow] = useState(true)
 
+  const handleClose = () => setShow(false)
+
+  return (
     <div style={{ backgroundColor: '#FFFFFF' }}>
       <NCIHeader
         imageSource="assets/images/dceg-logo.svg"
@@ -27,52 +36,72 @@ function LCScreening() {
           </h1>
         </div>
       </div>
-      <RecoilRoot>
-        <Router>
-          <BootstrapNavbar className={"shadow-sm"}>
-            <Container>
-              <Nav className="me-auto collapse navbar-collapse">
-                <NavLink
-                  to={'/'}
-                  id={'home'}
-                  key={'/'}
-                  activeClassName="active"
-                  className="nav-link"
-                  exact={true}>
-                  Home
-                </NavLink>
-                <NavLink
-                  to={'/results'}
-                  id={'results'}
-                  key={'/results'}
-                  activeClassName="active"
-                  className="nav-link">
-                  Personalized Risk
-                </NavLink>
-                <NavLink
-                  to={'/about'}
-                  id={'about'}
-                  key={'/about'}
-                  activeClassName="active"
-                  className="nav-link">
-                  About NLST
-                </NavLink>
-                <NavDropdown title="Further Information" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="http://nomograms.mskcc.org/Lung/Screening.aspx" target='_blank'>MSKCC Lung Cancer Screening Decision Tool</NavDropdown.Item>
-                  <NavDropdown.Item href="http://www.shouldiscreen.com/lung-cancer-risk-calculator" target="_blank">SIS Lung Cancer Screening Tool</NavDropdown.Item>
-                  <NavDropdown.Item href="https://effectivehealthcare.ahrq.gov/decision-aids/lung-cancer-screening/patient.html" target="_blank">AHRQ Lung Cancer Screening Decision Tool</NavDropdown.Item>
-                  <NavDropdown.Item href="http://jama.jamanetwork.com/article.aspx?articleID=2522553" target="_blank">Development and Validation of Risk Models to Select Ever-Smokers for CT Lung Cancer Screening</NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-            </Container>
-          </BootstrapNavbar>
-          <Switch>
-            <Route path="/" exact={true} component={Home} />
-            <Route path="/results" component={LCSResults} />
-            <Route path="/about" component={About} />
-          </Switch>
-        </Router>
-      </RecoilRoot>
+
+      {/*<Modal show={show}>
+        <Modal.Header>
+          <Modal.Title>
+            Disclaimer
+          </Modal.Title>
+          <Modal.Body>
+            test
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='primary' onClick={handleClose}>
+              I UNDERSTAND
+            </Button>
+          </Modal.Footer>
+        </Modal.Header>
+  </Modal>*/}
+
+      <Router>
+        <BootstrapNavbar className={"shadow-sm"}>
+          <Container>
+            <Nav className="me-auto collapse navbar-collapse">
+              <NavLink
+                to={'/'}
+                id={'home'}
+                key={'/'}
+                activeClassName="active"
+                className="nav-link"
+                exact={true}>
+                Home
+              </NavLink>
+              <NavLink
+                to={'/results'}
+                id={'results'}
+                key={'/results'}
+                onClick={(e) => { if (!results.submitted) { e.preventDefault() } }}
+                style={{
+                  cursor: !results.submitted ? 'default' : 'pointer',
+                  color: !results.submitted ? 'grey' : '#185394'
+                }}
+                activeClassName="active"
+                className="nav-link">
+                Personalized Risk
+              </NavLink>
+              <NavLink
+                to={'/about'}
+                id={'about'}
+                key={'/about'}
+                activeClassName="active"
+                className="nav-link">
+                About NLST
+              </NavLink>
+              <NavDropdown title="Further Information" id="basic-nav-dropdown">
+                <NavDropdown.Item href="http://nomograms.mskcc.org/Lung/Screening.aspx" target='_blank'>MSKCC Lung Cancer Screening Decision Tool</NavDropdown.Item>
+                <NavDropdown.Item href="http://www.shouldiscreen.com/lung-cancer-risk-calculator" target="_blank">SIS Lung Cancer Screening Tool</NavDropdown.Item>
+                <NavDropdown.Item href="https://effectivehealthcare.ahrq.gov/decision-aids/lung-cancer-screening/patient.html" target="_blank">AHRQ Lung Cancer Screening Decision Tool</NavDropdown.Item>
+                <NavDropdown.Item href="http://jama.jamanetwork.com/article.aspx?articleID=2522553" target="_blank">Development and Validation of Risk Models to Select Ever-Smokers for CT Lung Cancer Screening</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Container>
+        </BootstrapNavbar>
+        <Switch>
+          <Route path="/" exact={true} component={Home} />
+          <Route path="/results" component={LCSResults} />
+          <Route path="/about" component={About} />
+        </Switch>
+      </Router>
       <Container className='pb-5'>
         <fieldset className='p-3' style={{ border: '1px solid lightgrey', backgroundColor: '#F2F1F8', borderRadius: '4px' }}>
           If you have any questions regarding the assessment questions and results, please

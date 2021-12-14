@@ -1,5 +1,5 @@
 import { NCIHeader } from '@cbiitss/react-components'
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilState } from "recoil";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import './styles/main.scss';
 import Home from "./modules/home";
@@ -8,8 +8,14 @@ import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import {
+  defaultFormState,
+  resultsState
+} from './states/state';
 
 function LCRisk() {
+
+  const [results, setResult] = useRecoilState(resultsState)
 
   return (
 
@@ -19,44 +25,47 @@ function LCRisk() {
         url="https://dceg.cancer.gov/"
         style={{ backgroundColor: 'white' }}
       />
-      <div className="text-light py-1 d-none d-md-block" style={{backgroundColor: 'purple'}}>
+      <div className="text-light py-1 d-none d-md-block" style={{ backgroundColor: 'purple' }}>
         <div className="container">
           <h1 className="h5 py-2">
             Lung Cancer Risk Assessment Tool
           </h1>
         </div>
       </div>
-      <RecoilRoot>
-        <Router>
-          <BootstrapNavbar className={"shadow-sm"}>
-            <Container>
-              <Nav className="me-auto collapse navbar-collapse">
-                <NavLink
-                  to={'/'}
-                  id={'home'}
-                  key={'/'}
-                  activeClassName="active"
-                  className="nav-link"
-                  exact={true}>
-                  Home
-                </NavLink>
-                <NavLink
-                  to={'/results'}
-                  id={'results'}
-                  key={'/results'}
-                  activeClassName="active"
-                  className="nav-link">
-                  Personalized Risk
-                </NavLink>
-              </Nav>
-            </Container>
-          </BootstrapNavbar>
-          <Switch>
-            <Route path="/" exact={true} component={Home} />
-            <Route path="/results" component={RiskResults} />
-          </Switch>
-        </Router>
-      </RecoilRoot>
+      <Router>
+        <BootstrapNavbar className={"shadow-sm"}>
+          <Container>
+            <Nav className="me-auto collapse navbar-collapse">
+              <NavLink
+                to={'/'}
+                id={'home'}
+                key={'/'}
+                activeClassName="active"
+                className="nav-link"
+                exact={true}>
+                Home
+              </NavLink>
+              <NavLink
+                to={'/results'}
+                id={'results'}
+                key={'/results'}
+                activeClassName="active"
+                onClick={(e) => { if (!results.submitted) { e.preventDefault() } }}
+                style={{
+                  cursor: !results.submitted ? 'default' : 'pointer',
+                  color: !results.submitted ? 'grey' : '#185394'
+                }}
+                className="nav-link">
+                Personalized Risk
+              </NavLink>
+            </Nav>
+          </Container>
+        </BootstrapNavbar>
+        <Switch>
+          <Route path="/" exact={true} component={Home} />
+          <Route path="/results" component={RiskResults} />
+        </Switch>
+      </Router>
       <Container className='pb-5'>
         <fieldset className='p-3' style={{ border: '1px solid lightgrey', backgroundColor: '#F2F1F8', borderRadius: '4px' }}>
           If you have any questions regarding the assessment questions and results, please

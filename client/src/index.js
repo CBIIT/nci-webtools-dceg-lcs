@@ -4,11 +4,14 @@ import './index.css';
 import LCScreening from './LCScreening';
 import LCRisk from './LCRisk';
 import reportWebVitals from './reportWebVitals';
+import { RecoilRoot, useRecoilState } from "recoil";
 
 
 ReactDOM.render(
   <React.StrictMode>
-    {process.env.REACT_APP_PROJECT === 'LCScreening' ? <LCScreening/> : <LCRisk/>}
+    <RecoilRoot>
+      {process.env.REACT_APP_PROJECT === 'LCScreening' ? <LCScreening /> : <LCRisk />}
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
 );
