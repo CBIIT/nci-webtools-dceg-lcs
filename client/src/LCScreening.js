@@ -37,21 +37,18 @@ function LCScreening() {
         </div>
       </div>
 
-      {/*<Modal show={show}>
-        <Modal.Header>
-          <Modal.Title>
-            Disclaimer
-          </Modal.Title>
-          <Modal.Body>
-            test
-          </Modal.Body>
-          <Modal.Footer>
+
+      <Modal show={show} size='lg' onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Disclaimer</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>The Lung Cancer Risk Assessment Tool was designed for use by researchers, or to provide general health information. It is not a substitute for medical advice, diagnosis, or treatment of any health condition or problem. If you have questions after using this tool, address them to your healthcare provider. You should always consult with a healthcare provider before making any decisions, or undertaking any actions or not undertaking any actions related to any healthcare problem or issue you might have at any time, now or in the future. Research on lung cancer risk changes frequently; information contained in the tool may be outdated, incomplete or incorrect.</Modal.Body>
+        <Modal.Footer>
             <Button variant='primary' onClick={handleClose}>
               I UNDERSTAND
             </Button>
-          </Modal.Footer>
-        </Modal.Header>
-  </Modal>*/}
+        </Modal.Footer>
+      </Modal>
 
       <Router>
         <BootstrapNavbar className={"shadow-sm"}>
