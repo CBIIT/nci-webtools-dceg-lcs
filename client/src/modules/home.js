@@ -87,7 +87,7 @@ export default function Home() {
                 response[2] = response[0]
             }
 
-            setResults({ ...form, results: response, unstable: (response[0] > response[2] ? true : false), raceUnknown: unknown, loading: false, submitted: true })
+            setResults({ ...form, results: response, unstable: (response[0] > response[2] ? true : false), realBMI: Math.round(form.bmi * 100) / 100, raceUnknown: unknown, loading: false, submitted: true })
             history.push('/results')
         })
 

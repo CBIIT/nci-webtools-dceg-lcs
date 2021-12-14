@@ -5,6 +5,7 @@ export const defaultFormState = {
     gender: '',
     bmiSelection: '',
     bmi: '',
+    realBMI: '',
     units: { value: 'us', label: 'US (e.g., 5 feet 9 inches or 115 pounds)' },
     feet: '',
     inches: '',
@@ -14,7 +15,6 @@ export const defaultFormState = {
     race_group: '',
     raceUnknown: false,
     education: '',
-
     smoker_type: '',
     start: '',
     end: '',
