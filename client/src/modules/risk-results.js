@@ -65,8 +65,8 @@ export default function RiskResults() {
             `Gender: ${results.gender.label}`,
             `Height: ${getHeight(results)}`,
             `Weight: ${getWeight(results)}`,
-            `BMI: ${results.bmi}`,
-            `Racial or ethnic group: ${results.race_group.label}`,
+            `BMI: ${results.realBMI ? results.realBMI : 'Unknown'}`,
+            `Racial or ethnic group: ${results.raceUnknown ? 'Unknown. This risk assessment was based on data for whites.' : results.race_group.label}`,
             `Highest level of education obtained: ${results.education.label}`,
             `Type of smoker: ${results.smoker_type.label}`,
             `How old were you when you started smoking?: ${results.start.value}`
@@ -210,7 +210,7 @@ export default function RiskResults() {
                     <b>Height</b>
                 </div>
 
-                {(results.bmiSelection.value === 'bmi' || results.bmiSelection.value === 'unknonwn') && <div className='col-md-5'>
+                {(results.bmiSelection.value === 'bmi' || results.bmiSelection.value === 'unknown') && <div className='col-md-5'>
                     Unknown
                 </div>}
 
@@ -228,7 +228,7 @@ export default function RiskResults() {
                     <b>Weight</b>
                 </div>
 
-                {results.bmiSelection.value === 'bmi' && <div className='col-md-5'>
+                {(results.bmiSelection.value === 'bmi' || results.bmiSelection.value === 'unknown') && <div className='col-md-5'>
                     Unknown
                 </div>}
 
@@ -246,7 +246,7 @@ export default function RiskResults() {
                     <b>BMI</b>
                 </div>
                 <div className='col-md-5'>
-                    {results.bmi}
+                    {results.realBMI ? results.realBMI : 'Unknown'}
                 </div>
             </div>
 
@@ -255,7 +255,7 @@ export default function RiskResults() {
                     <b>Racial or ethnic group</b>
                 </div>
                 <div className='col-md-5'>
-                    {results.race_group.label}
+                    {results.raceUnknown ? 'Unknown. This risk assessment was based on data for whites.' : results.race_group.label}
                 </div>
             </div>
 

@@ -12,7 +12,9 @@ export const defaultFormState = {
     pounds: '',
     kg: '',
     race_group: '',
+    raceUnknown: false,
     education: '',
+
     smoker_type: '',
     start: '',
     end: '',

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Select from "react-select";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
     defaultFormState,
     resultsState
@@ -21,10 +21,9 @@ export default function Home() {
     const history = useHistory()
     const baseUrl = window.location.origin;
 
-    console.log(baseUrl)
-
     const bmiHigh = 50
     const bmiLow = 15
+    const bmiDefault = 28
     const defaultRace = 0
     const defaultEdu = 2
 
@@ -36,16 +35,24 @@ export default function Home() {
             bmi = bmiLow
         else if (form.bmi > bmiHigh)
             bmi = bmiHigh
+        
+        if(form.bmiSelection.value === 'unknown')
+            bmi = bmiDefault
 
         const qtYears = form.smoker_type.value === 'former' ? Math.round(form.age.value - form.end) : 0
 
         var race = parseInt(form.race_group.value, 10);
-        if (form.race_group.value === 4 || form.race_group.value === 5)
+        var unknown = false
+        if (race === 4 || race === 5){
             race = defaultRace
+            unknown = true
+        }
+            
 
         var edu = parseInt(form.education.value, 10);
-        if (form.education.value === 7)
+        if (edu === 7)
             edu = defaultEdu
+        
 
         var smokeYears;
         if (form.smoker_type.value === 'current')
@@ -53,7 +60,7 @@ export default function Home() {
 
         if (form.smoker_type.value === 'former')
             smokeYears = form.end - form.start.value
-
+    
         const params = {
             'age': form.age.value,
             'bmi': Math.round(bmi * 100) / 100,
@@ -69,11 +76,9 @@ export default function Home() {
             'pkyr.cat': Math.round(form.packYears * 100) / 100,
         }
 
-        console.log(params)
 
         await postJSON('/lungCancerScreening/lungCancerRest/', params).then((response) => {
 
-            console.log(response)
             for (var i = 0; i <= 5; i++) {
                 response[i] = Math.round(response[i])
             }
@@ -82,7 +87,7 @@ export default function Home() {
                 response[2] = response[0]
             }
 
-            setResults({ ...form, results: response, unstable: (response[0] > response[2] ? true : false), loading: false, submitted: true })
+            setResults({ ...form, results: response, unstable: (response[0] > response[2] ? true : false), raceUnknown: unknown, loading: false, submitted: true })
             history.push('/results')
         })
 
@@ -266,9 +271,8 @@ export default function Home() {
                             <input
                                 name='bmi'
                                 type='number'
-                                value={form.bmi}
                                 className="form-control no-spinner"
-                                onChange={(event) => handleChange('bmi', Number(event.target.value))}
+                                onBlur={(event) => setForm({ ...form, bmi: Number(event.target.value) })}
                             />
 
                         </div>
