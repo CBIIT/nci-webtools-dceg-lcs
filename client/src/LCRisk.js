@@ -70,7 +70,6 @@ function LCRisk() {
                 onClick={(e) => { if (!results.submitted) { e.preventDefault() } }}
                 style={{
                   cursor: !results.submitted ? 'default' : 'pointer',
-                  color: !results.submitted ? 'grey' : '#185394'
                 }}
                 className="nav-link">
                 Personalized Risk

@@ -1,10 +1,6 @@
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { useRecoilState } from "recoil";
 import { useState } from "react";
-import {
-    resultsState
-} from "../states/state";
 import PDFDocument from 'pdfkit/js/pdfkit.standalone'
 import blobStream from 'blob-stream'
 import { saveAs } from 'file-saver'
@@ -12,7 +8,7 @@ import imageToBase64 from 'image-to-base64/browser';
 
 
 export default function LCSResults() {
-    const [results, setResult] = useRecoilState(resultsState);
+    const results = JSON.parse(localStorage.getItem('results'))
     const [view, setView] = useState(false)
     const [data, showData] = useState(false)
     const [page, setPage] = useState(1)

@@ -1,9 +1,5 @@
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { useRecoilState } from "recoil";
-import {
-    resultsState
-} from "../states/state";
 import PDFDocument from 'pdfkit/js/pdfkit.standalone'
 import blobStream from 'blob-stream'
 import { saveAs } from 'file-saver'
@@ -11,7 +7,7 @@ import imageToBase64 from 'image-to-base64/browser';
 
 
 export default function RiskResults() {
-    const [results, setResult] = useRecoilState(resultsState);
+    const results = JSON.parse(localStorage.getItem('results'))
 
     function getHeight() {
 

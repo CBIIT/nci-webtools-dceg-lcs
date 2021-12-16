@@ -70,7 +70,6 @@ function LCScreening() {
                 onClick={(e) => { if (!results.submitted) { e.preventDefault() } }}
                 style={{
                   cursor: !results.submitted ? 'default' : 'pointer',
-                  color: !results.submitted ? 'grey' : '#185394'
                 }}
                 activeClassName="active"
                 className="nav-link">
