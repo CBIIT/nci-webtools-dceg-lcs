@@ -83,8 +83,8 @@ export default function RiskResults() {
         var yPos = doc.y
         doc
             .fontSize(9)
-            .font('Helvetica').text(`5-year risk of being diagnosed with lung cancer: `, 50, yPos, { continued: true, width: 200 }).font('Helvetica-Bold').text(`${getResult(2, 1) / 10}%`)
-            .font('Helvetica').text(`5-year risk of dying from lung cancer:  `, 350, yPos, { continued: true, width: 200 }).font('Helvetica-Bold').text(`${getResult(0, 1) / 10}%`)
+            .font('Helvetica').text(`5-year risk of being diagnosed with lung cancer: `, 50, yPos, { continued: true, width: 250 }).font('Helvetica-Bold').text(`${getResult(2, 1) / 10}%`)
+            .font('Helvetica').text(`5-year risk of dying from lung cancer:  `, 350, yPos, { continued: true, width: 250 }).font('Helvetica-Bold').text(`${getResult(0, 1) / 10}%`)
 
         yPos = doc.y
 
