@@ -85,7 +85,7 @@ function LCRisk() {
       <Container className='pb-5'>
         <fieldset className='p-3' style={{ border: '1px solid lightgrey', backgroundColor: '#F2F1F8', borderRadius: '4px' }}>
           If you have any questions regarding the assessment questions and results, please
-          <a href="mailto:katkih@mail.nih.gov?subject=LungCancerScreeningTool" target="_top" title="email to us"> send an email to us.</a>
+          <a href="mailto:katkih@mail.nih.gov?subject=LungCancerRiskAssessmentTool" target="_top" title="email to us"> send an email to us.</a>
         </fieldset>
       </Container>
 
