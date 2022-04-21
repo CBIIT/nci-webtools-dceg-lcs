@@ -141,6 +141,15 @@ function LCScreening() {
                     <a
                       class="text-light"
                       target="_blank"
+                      href="https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+                    >
+                      HHS Vulnerability Disclosure
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="text-light"
+                      target="_blank"
                       href="https://www.cancer.gov/policies/accessibility"
                     >
                       Accessibility
