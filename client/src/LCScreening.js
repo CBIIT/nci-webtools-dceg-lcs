@@ -164,6 +164,15 @@ function LCScreening() {
                       FOIA
                     </a>
                   </li>
+                  <li>
+                    <a
+                      class="text-light"
+                      target="_blank"
+                      href="https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+                    >
+                      HHS Vulnerability Disclosure
+                    </a>
+                  </li>
                 </ul>
               </div>
               <div class="col-lg-4 mb-4">
